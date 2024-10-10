@@ -3,6 +3,8 @@ from maa.context import Context
 from maa.custom_action import CustomAction
 from maa.custom_recognition import CustomRecognition
 
+import time
+
 
 def main():
     # 注册自定义动作
@@ -21,10 +23,10 @@ class RecogNumber(CustomRecognition):
         print(f"on RecogNumber.run, context: {context}, argv: {argv}")
         image = context.tasker.controller.cached_image
         left_recog = context.run_recognition(
-            "OCR", image, {"OCR": {"recognition": "OCR", "roi": [261, 275, 75, 100]}}
+            "OCR", image, {"OCR": {"recognition": "OCR", "roi": [261, 275, 75, 100], "replace": ["7", "1"]}}
         )
         right_recog = context.run_recognition(
-            "OCR", image, {"OCR": {"recognition": "OCR", "roi": [401, 288, 75, 100]}}
+            "OCR", image, {"OCR": {"recognition": "OCR", "roi": [401, 288, 75, 100], "replace": ["7", "1"]}}
         )
         print(left_recog.best_result.text)
         print(right_recog.best_result.text)
@@ -44,17 +46,19 @@ class Swipe(CustomAction):
         print(left, right)
 
         if left > right:
-            context.tasker.controller.post_swipe(100, 100, 200, 200, 50).wait()
-            context.tasker.controller.post_swipe(200, 200, 100, 300, 50).wait()
+            context.tasker.controller.post_swipe(100, 100, 200, 200, 1).wait()
+            context.tasker.controller.post_swipe(200, 200, 100, 300, 1).wait()
 
         elif left < right:
-            context.tasker.controller.post_swipe(200, 100, 100, 200, 50).wait()
-            context.tasker.controller.post_swipe(100, 200, 200, 300, 50).wait()
+            context.tasker.controller.post_swipe(200, 100, 100, 200, 1).wait()
+            context.tasker.controller.post_swipe(100, 200, 200, 300, 1).wait()
         else:
-            context.tasker.controller.post_swipe(100, 100, 200, 100, 50).wait()
-            context.tasker.controller.post_swipe(100, 200, 200, 200, 50).wait()
+            context.tasker.controller.post_swipe(100, 100, 200, 100, 1).wait()
+            context.tasker.controller.post_swipe(100, 200, 200, 200, 1).wait()
 
-        context.override_next(argv.current_task_name, ["WaitUntilStable"])
+        time.sleep(0.07)
+
+        context.override_next(argv.current_task_name, ["RecogNumber"])
         return CustomAction.RunResult(success=True)
 
 
