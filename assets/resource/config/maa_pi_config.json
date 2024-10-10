@@ -1,0 +1,30 @@
+{
+    "adb": {
+        "adb_path": "D:/leidian/LDPlayer9/adb.exe",
+        "address": "emulator-5554",
+        "config": {
+            "extras": {
+                "ld": {
+                    "enable": true,
+                    "index": 0,
+                    "path": "D:/leidian/LDPlayer9",
+                    "pid": 8544
+                }
+            }
+        }
+    },
+    "controller": {
+        "name": "安卓端"
+    },
+    "resource": "官服",
+    "task": [
+        {
+            "name": "开始口算",
+            "option": [
+            ]
+        }
+    ],
+    "win32": {
+        "_placeholder": 0
+    }
+}
